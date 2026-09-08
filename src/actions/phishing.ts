@@ -3,6 +3,7 @@
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { transporter, getPhishingTemplate } from "@/lib/email";
 
 export async function launchCampaignAction(formData: FormData) {
   const auth = await getSession();
@@ -30,21 +31,45 @@ export async function launchCampaignAction(formData: FormData) {
     }
   });
 
-  // Mock sending emails to users in that department (or all users for MVP)
-  // We'll generate tracking URLs that include the campaignId and userId
+  // Fetch target users
+  let targetUsers = [];
+  if (targetDepartment === "All") {
+    targetUsers = await db.user.findMany({
+      where: { role: "Employee" } // Don't phish admins by default
+    });
+  } else {
+    // For MVP, we don't have department field on users yet, so just fetch all if they select a specific one
+    targetUsers = await db.user.findMany({
+      where: { role: "Employee" }
+    });
+  }
+
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-  
-  // To simulate sending, we'll just log the generated phishing links to the console
-  // In a real app, this would use AWS SES or SendGrid.
-  console.log(`\n\n=== CAMPAIGN LAUNCHED: ${campaign.name} ===`);
-  console.log(`Target: ${targetDepartment}`);
-  console.log(`Template: ${template}`);
-  console.log(`-------------------------------------------`);
-  console.log(`Mocking Email Dispatch...`);
-  console.log(`To simulate an employee clicking the link, visit this URL:`);
-  console.log(`${baseUrl}/en/phishing/login?c=${campaign.id}&u=33333333-3333-3333-3333-333333333332`);
-  console.log(`(This tracks the employee account clicking the link)`);
-  console.log(`===========================================\n\n`);
+  let sentCount = 0;
+
+  // Send emails
+  for (const user of targetUsers) {
+    const trackingUrl = `${baseUrl}/en/phishing/login?c=${campaign.id}&u=${user.id}`;
+    const emailContent = getPhishingTemplate(template, trackingUrl);
+
+    try {
+      await transporter.sendMail({
+        from: `"IT Security" <${process.env.SMTP_USER}>`,
+        to: user.email,
+        subject: emailContent.subject,
+        html: emailContent.html,
+      });
+      sentCount++;
+    } catch (error) {
+      console.error(`Failed to send phishing email to ${user.email}:`, error);
+    }
+  }
+
+  // Update campaign with sent count
+  await db.campaign.update({
+    where: { id: campaign.id },
+    data: { sent: sentCount }
+  });
 
   revalidatePath("/[lang]/admin/campaigns", "page");
   
