@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String          @id @default(uuid())
+  email          String          @unique
+  name           String
+  role           String          // "Admin" or "Employee"
+  passwordHash   String
+  enterpriseId   String
+  enterpriseName String
+  progress       Progress[]
+  phishingEvents PhishingEvent[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model Module {
+  id          Int        @id @default(autoincrement())
+  titleEn     String
+  titleAm     String
+  description String
+  target      String     // "All", "Developer", "HR", "Employee"
+  progress    Progress[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Progress {
+  id            String   @id @default(uuid())
+  userId        String
+  moduleId      Int
+  status        String   // "Not Started", "In Progress", "Completed"
+  certificateId String?  
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  module        Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([userId, moduleId])
+}
+
+model Campaign {
+  id               String          @id @default(uuid())
+  name             String
+  targetDepartment String
+  template         String
+  enterpriseId     String
+  status           String
+  sent             Int             @default(0)
+  events           PhishingEvent[]
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+}
+
+model PhishingEvent {
+  id         String   @id @default(uuid())
+  campaignId String
+  userId     String
+  type       String   // "OPENED", "CLICKED", "SUBMITTED"
+  userAgent  String?
+  ip         String?
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+}

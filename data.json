@@ -1,0 +1,53 @@
+{
+  "users": [
+    {
+      "id": "33333333-3333-3333-3333-333333333331",
+      "email": "admin@eecs.com",
+      "name": "Admin User",
+      "role": "Admin",
+      "passwordHash": "dummy_hash_for_mvp",
+      "enterpriseId": "11111111-1111-1111-1111-111111111111",
+      "enterpriseName": "Awash Bank"
+    },
+    {
+      "id": "33333333-3333-3333-3333-333333333332",
+      "email": "employee@eecs.com",
+      "name": "Standard Employee",
+      "role": "Employee",
+      "passwordHash": "dummy_hash_for_mvp",
+      "enterpriseId": "11111111-1111-1111-1111-111111111111",
+      "enterpriseName": "Awash Bank"
+    }
+  ],
+  "modules": [
+    {
+      "id": 1,
+      "titleEn": "Secure API Coding",
+      "titleAm": "ደህንነቱ የተጠበቀ ኤፒአይ ኮዲንግ",
+      "description": "API Security basics",
+      "target": "Developer"
+    },
+    {
+      "id": 2,
+      "titleEn": "Social Engineering",
+      "titleAm": "ማህበራዊ ምህንድስና",
+      "description": "Phishing prevention",
+      "target": "HR"
+    },
+    {
+      "id": 3,
+      "titleEn": "Phishing Awareness",
+      "titleAm": "የማስገር ጥቃት ግንዛቤ",
+      "description": "Email security",
+      "target": "Employee"
+    },
+    {
+      "id": 4,
+      "titleEn": "Enterprise Security Basics",
+      "titleAm": "የድርጅት ደህንነት መሰረታዊ ነገሮች",
+      "description": "General Security",
+      "target": "All"
+    }
+  ],
+  "progress": []
+}

@@ -1,0 +1,34 @@
+{
+  "navigation": {
+    "dashboard": "ዳሽቦርድ",
+    "courses": "ኮርሶች",
+    "settings": "ቅንብሮች",
+    "profile": "መገለጫ",
+    "user_management": "የተጠቃሚ አስተዳደር",
+    "admin_panel": "የአስተዳዳሪ ፓነል",
+    "launch_phishing": "የማስገር ሙከራ ጀምር",
+    "switch_role": "ሚና ቀይር ወደ",
+    "switch_language": "ወደ እንግሊዝኛ ቀይር"
+  },
+  "dashboard": {
+    "welcome": "እንኳን በደህና መጡ",
+    "progress": "እድገትዎ",
+    "compliance": "የተገዢነት ነጥብ",
+    "completion_rate": "የሞጁል ማጠናቀቂያ መጠን"
+  },
+  "courses": {
+    "start": "ጀምር",
+    "in_progress": "በሂደት ላይ",
+    "completed": "ተጠናቋል",
+    "knowledge_check": "የእውቀት ማረጋገጫ",
+    "course_description": "የኮርስ ማብራሪያ"
+  },
+  "phishing": {
+    "title": "የማስገር ሙከራ (Phishing Simulator)",
+    "description": "የሰራተኞችን ግንዛቤ ለመሞከር የማስገር ዘመቻ ይጀምሩ።",
+    "button": "ዘመቻውን ጀምር",
+    "success": "ዘመቻው በተሳካ ሁኔታ ተጀምሯል!",
+    "target_department": "የታለመው ክፍል",
+    "email_template": "የኢሜይል አብነት"
+  }
+}

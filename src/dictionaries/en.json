@@ -1,0 +1,34 @@
+{
+  "navigation": {
+    "dashboard": "Dashboard",
+    "courses": "Courses",
+    "settings": "Settings",
+    "profile": "Profile",
+    "user_management": "User Management",
+    "admin_panel": "Admin Panel",
+    "launch_phishing": "Launch Phishing Simulation",
+    "switch_role": "Switch to",
+    "switch_language": "Switch to Amharic"
+  },
+  "dashboard": {
+    "welcome": "Welcome back",
+    "progress": "Your Progress",
+    "compliance": "Compliance Score",
+    "completion_rate": "Module Completion Rate"
+  },
+  "courses": {
+    "start": "Start",
+    "in_progress": "In Progress",
+    "completed": "Completed",
+    "knowledge_check": "Knowledge Check",
+    "course_description": "Course Description"
+  },
+  "phishing": {
+    "title": "Phishing Simulator",
+    "description": "Launch a simulated phishing campaign to test employee awareness.",
+    "button": "Launch Campaign",
+    "success": "Campaign launched successfully!",
+    "target_department": "Target Department",
+    "email_template": "Email Template"
+  }
+}
