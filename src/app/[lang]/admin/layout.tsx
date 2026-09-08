@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import Link from "next/link";
 import { LayoutDashboard, Users, ShieldAlert, Settings, LogOut } from "lucide-react";
 import { SidebarToastButton, SidebarLogoutButton } from "@/components/sidebar-actions";
+import { SidebarNav } from "@/components/sidebar-nav";
 
 export default async function AdminLayout({
   children,
@@ -20,24 +21,15 @@ export default async function AdminLayout({
           <h1 className="text-xl font-bold font-sans tracking-tight">EECS</h1>
           <p className="text-xs text-muted-foreground mt-1">Enterprise Analytics</p>
         </div>
-        <nav className="mt-6 px-4 space-y-1">
-          <Link href={`/${params.lang}/admin/dashboard`} className="flex items-center px-4 py-2 text-sm font-medium rounded-md bg-accent text-accent-foreground">
-            <LayoutDashboard className="mr-3 h-4 w-4" />
-            Dashboard
-          </Link>
-          <Link href={`/${params.lang}/admin/users`} className="flex items-center px-4 py-2 text-sm font-medium rounded-md text-muted-foreground hover:bg-accent/50 hover:text-foreground">
-            <Users className="mr-3 h-4 w-4" />
-            User Management
-          </Link>
-          <Link href={`/${params.lang}/admin/campaigns`} className="flex items-center px-4 py-2 text-sm font-medium rounded-md text-muted-foreground hover:bg-accent/50 hover:text-foreground">
-            <ShieldAlert className="mr-3 h-4 w-4" />
-            Phishing Campaigns
-          </Link>
-          <Link href={`/${params.lang}/admin/settings`} className="flex items-center px-4 py-2 text-sm font-medium rounded-md text-muted-foreground hover:bg-accent/50 hover:text-foreground">
-            <Settings className="mr-3 h-4 w-4" />
-            Settings
-          </Link>
-        </nav>
+        <SidebarNav 
+          lang={params.lang} 
+          links={[
+            { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+            { href: "/admin/users", label: "User Management", icon: Users },
+            { href: "/admin/campaigns", label: "Phishing Campaigns", icon: ShieldAlert },
+            { href: "/admin/settings", label: "Settings", icon: Settings },
+          ]}
+        />
         <div className="absolute bottom-0 w-64 p-4 border-t border-border">
           <SidebarLogoutButton lang={params.lang} />
         </div>

@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { logoutAction } from "@/actions/auth";
+import { useState } from "react";
 
 export function SidebarToastButton({ children, label }: { children: React.ReactNode, label: string }) {
   return (
@@ -20,8 +21,10 @@ export function SidebarToastButton({ children, label }: { children: React.ReactN
 
 export function SidebarLogoutButton({ lang }: { lang: string }) {
   const router = useRouter();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogout = async () => {
+    setIsLoggingOut(true);
     await logoutAction();
     router.push(`/${lang}`);
   };
@@ -29,10 +32,11 @@ export function SidebarLogoutButton({ lang }: { lang: string }) {
   return (
     <button
       onClick={handleLogout}
-      className="w-full flex items-center px-4 py-2 text-sm font-medium rounded-md text-destructive hover:bg-destructive/10 text-left"
+      disabled={isLoggingOut}
+      className="w-full flex items-center px-4 py-2 text-sm font-medium rounded-md text-destructive hover:bg-destructive/10 text-left disabled:opacity-50"
     >
       <LogOut className="mr-3 h-4 w-4" />
-      Log Out
+      {isLoggingOut ? "Logging Out..." : "Log Out"}
     </button>
   );
 }

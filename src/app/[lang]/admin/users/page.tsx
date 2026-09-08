@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Users, UserPlus, Shield } from "lucide-react";
 import { db } from "@/lib/db";
-import { createUserAction } from "@/actions/users";
+import { CreateUserForm } from "./CreateUserForm";
 
 export default async function AdminUsersPage() {
   const users = await db.user.findMany();
@@ -28,28 +28,7 @@ export default async function AdminUsersPage() {
               <CardDescription>Provision a new user account.</CardDescription>
             </CardHeader>
             <CardContent>
-              <form action={createUserAction as any} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Full Name</Label>
-                  <Input id="name" name="name" placeholder="John Doe" required />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email Address</Label>
-                  <Input id="email" name="email" type="email" placeholder="john@eecs.com" required />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="role">Role</Label>
-                  <select 
-                    id="role" 
-                    name="role" 
-                    className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                  >
-                    <option value="Employee">Employee</option>
-                    <option value="Admin">Admin</option>
-                  </select>
-                </div>
-                <Button type="submit" className="w-full">Create User</Button>
-              </form>
+              <CreateUserForm />
             </CardContent>
           </Card>
         </div>

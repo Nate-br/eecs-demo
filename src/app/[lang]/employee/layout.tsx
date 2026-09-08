@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import Link from "next/link";
 import { BookOpen, User, LogOut, Settings } from "lucide-react";
 import { SidebarToastButton, SidebarLogoutButton } from "@/components/sidebar-actions";
+import { SidebarNav } from "@/components/sidebar-nav";
 
 export default async function EmployeeLayout({
   children,
@@ -19,20 +20,14 @@ export default async function EmployeeLayout({
           <h1 className="text-xl font-bold font-sans tracking-tight">EECS</h1>
           <p className="text-xs text-muted-foreground mt-1">Employee Portal</p>
         </div>
-        <nav className="mt-6 px-4 space-y-1">
-          <Link href={`/${params.lang}/employee/dashboard`} className="flex items-center px-4 py-2 text-sm font-medium rounded-md bg-accent text-accent-foreground">
-            <BookOpen className="mr-3 h-4 w-4" />
-            Learning Paths
-          </Link>
-          <Link href={`/${params.lang}/employee/profile`} className="flex items-center px-4 py-2 text-sm font-medium rounded-md text-muted-foreground hover:bg-accent/50 hover:text-foreground">
-            <User className="mr-3 h-4 w-4" />
-            Profile
-          </Link>
-          <Link href={`/${params.lang}/employee/settings`} className="flex items-center px-4 py-2 text-sm font-medium rounded-md text-muted-foreground hover:bg-accent/50 hover:text-foreground">
-            <Settings className="mr-3 h-4 w-4" />
-            Settings
-          </Link>
-        </nav>
+        <SidebarNav 
+          lang={params.lang} 
+          links={[
+            { href: "/employee/dashboard", label: "Learning Paths", icon: BookOpen },
+            { href: "/employee/profile", label: "Profile", icon: User },
+            { href: "/employee/settings", label: "Settings", icon: Settings },
+          ]}
+        />
         <div className="absolute bottom-0 w-64 p-4 border-t border-border">
           <SidebarLogoutButton lang={params.lang} />
         </div>
