@@ -31,6 +31,7 @@ model Module {
   titleAm     String
   description String
   target      String     // "All", "Developer", "HR", "Employee"
+  videoUrl    String?
   progress    Progress[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt

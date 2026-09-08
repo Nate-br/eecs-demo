@@ -10,24 +10,62 @@ import { toast } from "sonner";
 import { Settings, Plus } from "lucide-react";
 import { MobileNav } from "@/components/mobile-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { supabase, hasValidSupabaseEnv } from "@/lib/supabase";
 
 export default function AdminSettingsPage({ params }: { params: { lang: string } }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState("");
+  const [file, setFile] = useState<File | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setUploadProgress("");
     
     const formData = new FormData(e.currentTarget);
+    
+    let videoUrl = "";
+    if (file) {
+      if (!hasValidSupabaseEnv()) {
+        toast.error("Supabase environment variables are missing. Cannot upload video.");
+        setIsSubmitting(false);
+        return;
+      }
+      
+      setUploadProgress("Uploading video...");
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
+      
+      const { data, error } = await supabase.storage
+        .from('courses')
+        .upload(`videos/${fileName}`, file);
+        
+      if (error) {
+        toast.error("Video upload failed", { description: error.message });
+        setIsSubmitting(false);
+        return;
+      }
+      
+      const { data: publicUrlData } = supabase.storage
+        .from('courses')
+        .getPublicUrl(`videos/${fileName}`);
+        
+      videoUrl = publicUrlData.publicUrl;
+      formData.append("videoUrl", videoUrl);
+    }
+
+    setUploadProgress("Saving module...");
     const result = await createModuleAction(formData);
     
     setIsSubmitting(false);
+    setUploadProgress("");
     
     if (result.error) {
       toast.error("Failed to create module", { description: result.error });
     } else {
       toast.success("Module created successfully!");
       (e.target as HTMLFormElement).reset();
+      setFile(null);
     }
   };
 
@@ -68,9 +106,19 @@ export default function AdminSettingsPage({ params }: { params: { lang: string }
                 <Label htmlFor="target">Target Department</Label>
                 <Input id="target" name="target" placeholder="e.g., Employee, Developer, HR, All" required defaultValue="All" />
               </div>
+              <div className="space-y-2">
+                <Label htmlFor="video">Course Video (Optional)</Label>
+                <Input 
+                  id="video" 
+                  type="file" 
+                  accept="video/mp4,video/x-m4v,video/*" 
+                  onChange={(e) => setFile(e.target.files?.[0] || null)}
+                />
+                <p className="text-xs text-muted-foreground">Upload an MP4 video. This requires Supabase Storage to be configured.</p>
+              </div>
               <Button type="submit" disabled={isSubmitting} className="mt-4">
                 <Plus className="w-4 h-4 mr-2" />
-                {isSubmitting ? "Creating..." : "Create Module"}
+                {isSubmitting ? (uploadProgress || "Creating...") : "Create Module"}
               </Button>
             </form>
           </CardContent>
