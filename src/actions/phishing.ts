@@ -8,7 +8,7 @@ import { transporter, getPhishingTemplate } from "@/lib/email";
 export async function launchCampaignAction(formData: FormData) {
   const auth = await getSession();
   if (!auth || auth.role !== "Admin") {
-    throw new Error("Unauthorized");
+    return { error: "Unauthorized" };
   }
 
   const name = formData.get("name") as string;
@@ -16,7 +16,7 @@ export async function launchCampaignAction(formData: FormData) {
   const template = formData.get("template") as string;
 
   if (!name || !targetDepartment || !template) {
-    throw new Error("Missing required fields");
+    return { error: "Missing required fields" };
   }
 
   // Generate a mock campaign
