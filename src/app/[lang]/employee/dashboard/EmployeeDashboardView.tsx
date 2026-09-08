@@ -13,6 +13,8 @@ import { MobileNav } from "@/components/mobile-nav";
 export function EmployeeDashboardView({ dictionary, lang, allModules, completedModules }: { dictionary: any, lang: string, allModules: any[], completedModules: number[] }) {
   const { user, role } = useAuth();
 
+  if (!user) return null;
+
   const displayModules = allModules
     .filter(m => m.target === role || m.target === "All" || m.target === "Employee")
     .map(m => ({
@@ -31,7 +33,7 @@ export function EmployeeDashboardView({ dictionary, lang, allModules, completedM
               <span className="hidden md:inline">{dictionary.dashboard.welcome}, </span>
               <span className="text-foreground md:text-muted-foreground">{user.name}</span>
             </h2>
-            <p className="text-sm text-muted-foreground mt-1 hidden md:block">{user.enterprise_name} - {role}</p>
+            <p className="text-sm text-muted-foreground mt-1 hidden md:block">{user.enterpriseName} - {role}</p>
           </div>
         </div>
         <div className="flex items-center gap-4">
@@ -73,7 +75,6 @@ export function EmployeeDashboardView({ dictionary, lang, allModules, completedM
                     <div className="flex items-center gap-2">
                       {module.status === 'Completed' && (
                         <Button 
-                          asChild
                           variant="outline"
                           size="sm"
                         >
@@ -83,7 +84,6 @@ export function EmployeeDashboardView({ dictionary, lang, allModules, completedM
                         </Button>
                       )}
                       <Button 
-                        asChild
                         variant={module.status === 'Completed' ? "secondary" : "default"}
                         size="sm"
                       >

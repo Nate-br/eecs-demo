@@ -27,13 +27,16 @@ const mockCompletionData = [
 
 const COLORS = ['#18181b', '#52525b', '#a1a1aa'];
 
-export function AdminDashboardView({ dictionary, lang, allModules, phishingEvents = [] }: { dictionary: any, lang: string, allModules: any[], phishingEvents?: any[] }) {
-  const { user } = useAuth();
+export function AdminDashboardView({ dictionary, lang, allModules, phishingEvents = [], users = [] }: { dictionary: any, lang: string, allModules: any[], phishingEvents?: any[], users?: any[] }) {
+  const { user, role } = useAuth();
   
+  if (!user) return null;
+
   const complianceData = mockComplianceData;
   const completionData = mockCompletionData;
 
-  // Aggregate phishing events
+  // Calculate stats
+  const totalEmployees = users.length;
   const totalOpened = phishingEvents.filter(e => e.type === "OPENED").length;
   const totalClicked = phishingEvents.filter(e => e.type === "CLICKED").length;
   const totalSubmitted = phishingEvents.filter(e => e.type === "SUBMITTED").length;
@@ -55,7 +58,7 @@ export function AdminDashboardView({ dictionary, lang, allModules, phishingEvent
               <Activity className="h-5 w-5 text-muted-foreground hidden md:block" />
               {dictionary.navigation.admin_panel}
             </h2>
-            <p className="text-sm text-muted-foreground mt-1 hidden md:block">{user.enterprise_name} - Admin Overview</p>
+            <p className="text-sm text-muted-foreground mt-1 hidden md:block">{user.enterpriseName} - {role} Admin Overview</p>
           </div>
         </div>
         <div className="flex items-center gap-4">

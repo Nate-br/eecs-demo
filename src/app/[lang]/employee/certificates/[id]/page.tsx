@@ -17,7 +17,7 @@ export default async function CertificatePage(props: { params: Promise<{ id: str
   
   // Let's just find the user by ID
   const allUsers = await db.user.findMany();
-  const actualUser = allUsers.find((u: any) => u.id === session.userId);
+  const actualUser = allUsers.find((u: any) => u.id === (session.userId as string));
 
   const allModules = await db.module.findMany();
   const module = allModules.find((m: any) => m.id.toString() === params.id);
@@ -90,7 +90,7 @@ export default async function CertificatePage(props: { params: Promise<{ id: str
         </div>
       </div>
       
-      <p className="mt-8 text-slate-400 text-sm">Certificate ID: {session.userId.split('-')[0]}-{params.id}-{Date.now().toString().slice(-6)}</p>
+      <p className="mt-8 text-slate-400 text-sm">Certificate ID: {(session.userId as string).split('-')[0]}-{params.id}-{Date.now().toString().slice(-6)}</p>
     </div>
   );
 }

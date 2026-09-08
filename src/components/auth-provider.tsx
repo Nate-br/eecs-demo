@@ -8,6 +8,8 @@ interface AuthContextType {
     id: string;
     role: string;
     enterpriseId: string;
+    name: string;
+    enterpriseName: string;
   } | null;
 }
 
@@ -18,6 +20,8 @@ export function AuthProvider({ children, session }: { children: ReactNode, sessi
     id: session.userId,
     role: session.role,
     enterpriseId: session.enterpriseId,
+    name: session.name,
+    enterpriseName: session.enterpriseName,
   } : null;
 
   return (

@@ -28,7 +28,7 @@ export default async function AdminUsersPage() {
               <CardDescription>Provision a new user account.</CardDescription>
             </CardHeader>
             <CardContent>
-              <form action={createUserAction} className="space-y-4">
+              <form action={createUserAction as any} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">Full Name</Label>
                   <Input id="name" name="name" placeholder="John Doe" required />

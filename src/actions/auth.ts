@@ -14,7 +14,7 @@ export async function loginAction(email: string) {
     return { error: "Invalid credentials. Please check your email." };
   }
 
-  await createSession(user.id, user.role, user.enterpriseId);
+  await createSession(user.id, user.role, user.enterpriseId, user.name, user.enterpriseName);
   return { success: true, role: user.role };
 }
 

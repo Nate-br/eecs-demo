@@ -19,7 +19,7 @@ export default function PhishingCampaignsPage() {
           <CardDescription>Configure and dispatch a simulated phishing test to your organization.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={launchCampaignAction} className="space-y-6">
+          <form action={launchCampaignAction as any} className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="name">Campaign Name</Label>
               <Input id="name" name="name" placeholder="e.g. Q3 Urgent Password Reset" required />

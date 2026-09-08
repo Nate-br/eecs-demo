@@ -25,7 +25,7 @@ export function PhishingModal({ dictionary }: { dictionary: any }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
+      <DialogTrigger>
         <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
           {dictionary.phishing.button}
         </Button>

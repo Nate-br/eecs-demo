@@ -13,21 +13,30 @@ export async function encrypt(payload: any) {
     .sign(secretKey);
 }
 
-export async function decrypt(token: string | undefined = "") {
+export interface SessionPayload {
+  userId: string;
+  role: string;
+  enterpriseId: string;
+  name: string;
+  enterpriseName: string;
+  [key: string]: any;
+}
+
+export async function decrypt(token: string | undefined = ""): Promise<SessionPayload | null> {
   if (!token) return null;
   try {
     const { payload } = await jwtVerify(token, secretKey, {
       algorithms: ["HS256"],
     });
-    return payload;
+    return payload as unknown as SessionPayload;
   } catch (error) {
     return null;
   }
 }
 
-export async function createSession(userId: string, role: string, enterpriseId: string) {
+export async function createSession(userId: string, role: string, enterpriseId: string, name: string, enterpriseName: string) {
   const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
-  const session = await encrypt({ userId, role, enterpriseId, expiresAt });
+  const session = await encrypt({ userId, role, enterpriseId, name, enterpriseName, expiresAt });
 
   const cookieStore = await cookies();
   cookieStore.set("session", session, {
@@ -44,7 +53,7 @@ export async function deleteSession() {
   cookieStore.delete("session");
 }
 
-export async function getSession() {
+export async function getSession(): Promise<SessionPayload | null> {
   const cookieStore = await cookies();
   const session = cookieStore.get("session")?.value;
   if (!session) return null;
