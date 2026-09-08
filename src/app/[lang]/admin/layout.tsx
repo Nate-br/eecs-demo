@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import Link from "next/link";
 import { LayoutDashboard, Users, ShieldAlert, Settings, LogOut } from "lucide-react";
 import { SidebarToastButton, SidebarLogoutButton } from "@/components/sidebar-actions";
-import { SidebarNav } from "@/components/sidebar-nav";
+import { AdminSidebarNav } from "@/components/sidebar-nav";
 
 export default async function AdminLayout({
   children,
@@ -21,15 +21,7 @@ export default async function AdminLayout({
           <h1 className="text-xl font-bold font-sans tracking-tight">EECS</h1>
           <p className="text-xs text-muted-foreground mt-1">Enterprise Analytics</p>
         </div>
-        <SidebarNav 
-          lang={params.lang} 
-          links={[
-            { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
-            { href: "/admin/users", label: "User Management", icon: Users },
-            { href: "/admin/campaigns", label: "Phishing Campaigns", icon: ShieldAlert },
-            { href: "/admin/settings", label: "Settings", icon: Settings },
-          ]}
-        />
+        <AdminSidebarNav lang={params.lang} />
         <div className="absolute bottom-0 w-64 p-4 border-t border-border">
           <SidebarLogoutButton lang={params.lang} />
         </div>

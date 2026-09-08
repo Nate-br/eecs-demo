@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import Link from "next/link";
 import { BookOpen, User, LogOut, Settings } from "lucide-react";
 import { SidebarToastButton, SidebarLogoutButton } from "@/components/sidebar-actions";
-import { SidebarNav } from "@/components/sidebar-nav";
+import { EmployeeSidebarNav } from "@/components/sidebar-nav";
 
 export default async function EmployeeLayout({
   children,
@@ -20,14 +20,7 @@ export default async function EmployeeLayout({
           <h1 className="text-xl font-bold font-sans tracking-tight">EECS</h1>
           <p className="text-xs text-muted-foreground mt-1">Employee Portal</p>
         </div>
-        <SidebarNav 
-          lang={params.lang} 
-          links={[
-            { href: "/employee/dashboard", label: "Learning Paths", icon: BookOpen },
-            { href: "/employee/profile", label: "Profile", icon: User },
-            { href: "/employee/settings", label: "Settings", icon: Settings },
-          ]}
-        />
+        <EmployeeSidebarNav lang={params.lang} />
         <div className="absolute bottom-0 w-64 p-4 border-t border-border">
           <SidebarLogoutButton lang={params.lang} />
         </div>
